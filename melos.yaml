@@ -1,0 +1,6 @@
+name: dart_logging_utils
+
+packages:
+  - logging_utils
+  - logging_generator
+  - example
