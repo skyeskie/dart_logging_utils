@@ -99,7 +99,7 @@ class AutoLogGenerator extends GeneratorForAnnotation<AutoLog> {
     final emitter = DartEmitter(useNullSafetySyntax: true);
 
     output.writeln(DartFormatter().format(
-      '// ignore_for_file: non_constant_identifier_names, unusedelement\n\n'
+      '// ignore_for_file: non_constant_identifier_names, unused_element\n\n'
       '${loggingExtension.accept(emitter)}',
     ));
 
