@@ -35,6 +35,9 @@ class AutoLogGenerator extends GeneratorForAnnotation<AutoLog> {
         '';
 
     final levels = annotation.read('methods').listValue;
+    final setLevel = annotation.read('level').isNull
+        ? null
+        : annotation.read('level').objectValue;
 
     final loggingExtension = Extension(
       (ext) => ext
@@ -45,9 +48,16 @@ class AutoLogGenerator extends GeneratorForAnnotation<AutoLog> {
             (f) => f
               ..static = true
               ..name = 'LOGGER'
-              ..assignment = Code(
+              ..assignment = Code([
                 "Logger('$prefix.${element.name}')",
-              )
+                if (setLevel != null) ...[
+                  '..level = const Level(\'',
+                  setLevel.getField('name')!.toStringValue(),
+                  "',",
+                  setLevel.getField('value')!.toIntValue().toString(),
+                  ')',
+                ],
+              ].join(''))
               ..type = refer('Logger', 'package:logging/logging.dart'),
           ),
         ])
