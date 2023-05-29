@@ -68,7 +68,19 @@ class AutoLogGenerator extends GeneratorForAnnotation<AutoLog> {
                     ..type = refer('Object?'),
                 ),
               ])
-              ..body = Code('LOGGER.log(level, message);'),
+              ..docs.addAll([
+                '/// Log [message] at [level]',
+                '/// Exceptions are upgraded to 1000 level',
+                '/// Errors are upgraded to 1200 level',
+              ])
+              ..lambda = true
+              ..body = Code('''
+              switch(message) {
+                (Error e) => LOGGER.log(Level.SHOUT, message, e, e.stackTrace),
+                (Exception e) => LOGGER.log(Level.SEVERE, message),
+                _ => LOGGER.log(level, message),
+              }
+              '''),
           ),
           ...levels.map(_makeLevelMethod)
         ]),
@@ -85,10 +97,12 @@ class AutoLogGenerator extends GeneratorForAnnotation<AutoLog> {
   }
 
   Method _makeLevelMethod(DartObject level) {
-    return Method(
+    final name = level.getField('name')!.toStringValue()!.toLowerCase();
+    final methodName = level.getField('methodName')?.toStringValue() ?? name;
+    final value = level.getField('value')!.toIntValue()!;
+    return Method.returnsVoid(
       (m) => m
-        ..name = level.getField('methodName')?.toStringValue() ??
-            level.getField('name')!.toStringValue()!.toLowerCase()
+        ..name = methodName
         ..requiredParameters.add(
           Parameter(
             (p) => p
@@ -97,17 +111,13 @@ class AutoLogGenerator extends GeneratorForAnnotation<AutoLog> {
               ..type = refer('Object?'),
           ),
         )
-        ..lambda = false
-        ..body = Block(
-          (b) => b
-            ..addExpression(InvokeExpression.newOf(refer('log'), [
-              InvokeExpression.constOf(tLevel, [
-                literal(level.getField('name')!.toStringValue()!),
-                literal(level.getField('value')!.toIntValue()!),
-              ]),
-              refer('message'),
-            ])),
-        ),
+        ..docs.addAll([
+          '/// Log message at level $name (value $value)',
+          '/// Exceptions are upgraded to 1000 level',
+          '/// Errors are upgraded to 1200 level',
+        ])
+        ..lambda = true
+        ..body = Code("log(const Level('$name', $value), message)"),
     );
   }
 }
