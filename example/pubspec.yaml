@@ -1,0 +1,28 @@
+name: example
+description: A sample flutter application for logging
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.1 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  logging_utils:
+    path: ../logging_utils
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: any # Follow Flutter
+
+  logging_generator:
+    path: ../logging_generator
+
+  flutter_lints: ^2.0.1
+
+flutter:
+  uses-material-design: true

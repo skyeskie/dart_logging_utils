@@ -60,6 +60,3 @@ doc/api/
 
 # Generated files
 *.g.dart
-
-# Ignore example for now
-example
