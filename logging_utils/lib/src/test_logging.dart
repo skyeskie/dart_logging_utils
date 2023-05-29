@@ -1,9 +1,15 @@
 import 'dart:async';
 
 import 'package:logging/logging.dart';
-import 'package:test/scaffolding.dart';
 
 import 'log_formatter.dart';
+
+//TODO: Temporary until figure out test importing
+void setUp(void Function() function) {}
+
+void tearDown(void Function() function) {}
+
+void printOnFailure(Object? object) {}
 
 void initTestLogging() {
   final testLoggingListeners = <Zone, StreamSubscription>{};

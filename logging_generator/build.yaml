@@ -1,0 +1,8 @@
+builders:
+  auto_log:
+    import: "package:logging_generator/builder.dart"
+    builder_factories: [ "makeAutoLogBuilder" ]
+    build_extensions: { ".dart": [ ".auto_log_builder.g.part" ] }
+    auto_apply: root_package
+    build_to: cache
+    applies_builders: [ "source_gen:combining_builder" ]
