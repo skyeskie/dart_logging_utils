@@ -1,16 +1,9 @@
 import 'dart:async';
 
-import 'package:logging/logging.dart';
+import 'package:logging_utils/logging_utils.dart';
+import 'package:test/scaffolding.dart';
 
-import 'log_formatter.dart';
-
-//TODO: Temporary until figure out test importing
-void setUp(void Function() function) {}
-
-void tearDown(void Function() function) {}
-
-void printOnFailure(Object? object) {}
-
+//TODO: Make this an extension on an Appender
 void initTestLogging() {
   final testLoggingListeners = <Zone, StreamSubscription>{};
   final testLoggingBuffers = <Zone, StringBuffer>{};
