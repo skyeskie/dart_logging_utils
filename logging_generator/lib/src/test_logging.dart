@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:logging_utils/logging_utils.dart';
 import 'package:test/scaffolding.dart';
 
-//TODO: Make this an extension on an Appender
+//TODO: Make this an extension of/on LoggingConfig
 void initTestLogging() {
   final testLoggingListeners = <Zone, StreamSubscription>{};
   final testLoggingBuffers = <Zone, StringBuffer>{};

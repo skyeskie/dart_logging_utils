@@ -9,8 +9,10 @@ environment:
   sdk: ^3.0.1
 
 dependencies:
-  logging: ^1.2.0
   ansi_codes: ^0.1.1
+  logging: ^1.2.0
+  logging_appenders: ^1.1.0
+  meta: ^1.9.1
 
 dev_dependencies:
   lints: ^2.1.0
