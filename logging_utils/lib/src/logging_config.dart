@@ -15,23 +15,24 @@ class LoggingConfig {
     ///
     /// Otherwise, see [debugInEnvironment] for environment declarations
     /// (https://dart.dev/guides/environment-declarations)
-    required this.debugLevelCallback,
+    bool? isDebugLogging,
 
     /// Level overrides for specific Loggers
     /// Note: if you use generators, make sure the prefixes are correct
     /// Additionally, [hierarchicalLoggingEnabled] is true, so you can configure
     /// level per package or directory
     Map<String, Level> levelOverrides = const {},
-  })  : debugLevel = debugLevel ?? releaseLevel ?? Level.FINER,
+  })  : isDebugLogging = isDebugLogging ?? debugInEnvironment(),
+        debugLevel = debugLevel ?? releaseLevel ?? Level.FINER,
         releaseLevel = releaseLevel ?? debugLevel ?? Level.WARNING {
     for (final MapEntry(:key, :value) in levelOverrides.entries) {
       Logger(key).level = value;
     }
   }
 
-  final log = Logger('logging_utils.LoggingConfig');
+  static final log = Logger('logging_utils.LoggingConfig');
 
-  bool Function() debugLevelCallback;
+  final bool isDebugLogging;
 
   bool _rootConfigured = false;
 
@@ -55,7 +56,7 @@ class LoggingConfig {
       Logger('logging_utils.LoggingConfig').warning('Root already configured');
     }
     hierarchicalLoggingEnabled = true;
-    Logger.root.level = debugLevelCallback() ? debugLevel : releaseLevel;
+    Logger.root.level = isDebugLogging ? debugLevel : releaseLevel;
     _rootConfigured = true;
   }
 

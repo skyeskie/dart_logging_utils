@@ -7,7 +7,7 @@ class LoggingAppenderConfig extends LoggingConfig {
     required this.logAppender,
     this.stdErrLevel = Level.WARNING,
     super.debugLevel,
-    required super.debugLevelCallback,
+    required super.isDebugLogging,
     super.releaseLevel,
     super.levelOverrides,
   });
